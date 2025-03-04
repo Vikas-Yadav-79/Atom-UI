@@ -126,7 +126,8 @@ h2 {
 
 .transaction-message {
     width: 100%;
-    padding: 12px;
+    height: 36px;
+    padding: 5px;
     margin-bottom: 10px;
     border-radius: 5px;
     font-size: 14px;
@@ -196,4 +197,12 @@ h2 {
       transform: rotate(360deg);
     }
   }
+
   
+  strong {
+    font: 500;
+    color: #424242;
+  }
+  p{
+    color: #757575;
+  }

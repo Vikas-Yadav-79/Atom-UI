@@ -49,8 +49,14 @@
                         </td>
                         <td>
                             <button class="expand-btn" ng-click="toggleDetails($index)">
-                                {{ expandedIndex === $index ? '⌃' : '⌄' }}
-                            </button>
+                                <span ng-if="expandedIndex === $index">
+                                  <img ng-src="../assests/image.png" alt="Collapse" style="width: 15px; height: 15px;" />
+                                </span>
+                                <span ng-if="expandedIndex !== $index">
+                                    <img ng-src="../assests/image.png" alt="Collapse" style="width: 15px; height: 15px; transform: rotate(180deg);" />
+                                </span>
+                              </button>
+                              
                         </td>
                     </tr>
                     <!-- Details row -->
@@ -77,7 +83,7 @@
                                                 <span>✉️</span> <b>Resend confirmation email</b>
                                             </p>
                                             <p class="check-status" ng-if="transaction.status === 'Initialized'">
-                                                <b ng-click="recheckTransaction($index)" style="cursor: pointer; color: blue;" ng-disabled="transaction.isRechecking">
+                                                <b ng-click="recheckTransaction($index)" style="cursor: pointer; color: black;" ng-disabled="transaction.isRechecking">
                                                   <span ng-if="transaction.isRechecking">
                                                     Rechecking status <span class="spinner"></span>
                                                   </span>
