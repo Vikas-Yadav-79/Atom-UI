@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.transaction-container {
+    max-width: 90%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.email {
+    font-size: 0.9em;
+    color: gray;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.settled {
+    background-color: #d4edda;
+    color: #0E700E;
+}
+
+.successful {
+    background-color: #d1ecf1;
+    color: #115EA3;
+}
+
+.failed {
+    background-color: #f8d7da;
+    color: #CC3300;
+}
+.initialized {
+    background-color: #f2f2f2;
+    color: #616161;
+}
+.expand-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+.details-row {
+    background-color: #f9f9f9;
+}
+
+.transaction-details {
+    padding: 10px;
+    font-size: 0.9em;
+    border-spacing: 12px;
+}
+
+.transaction-details p {
+    margin: 5px 0;
+}
+
+.resend-email {
+    font-weight: bold;
+    color: black;
+}
+.transaction-table{
+    border-spacing: 12px;
+}
+
+/* Hide extra columns on mobile */
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+    
+    .transaction-table th, .transaction-table td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .transaction-container {
+        max-width: 100%;
+        padding: 10px;
+    }
+}

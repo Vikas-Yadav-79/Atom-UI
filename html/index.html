@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="transactionApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions Table</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="TransactionController">
+
+    <div class="transaction-container">
+        <h2>Transactions history</h2>
+        <div class="table-responsive">
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Paid by</th>
+                        <th>Amount</th>
+                        <th class="hide-mobile">Paid for</th>
+                        <th class="hide-mobile">Date & Time</th>
+                        <th class="hide-mobile">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="transaction in transactions track by $index">
+                        <td>
+                            <strong>{{ transaction.name }}</strong><br>
+                            <span class="email">{{ transaction.email }}</span>
+                        </td>
+                        <td>{{ transaction.amount }}</td>
+                        <td class="hide-mobile">{{ transaction.paidFor }}</td>
+                        <td class="hide-mobile">{{ transaction.dateTime }}</td>
+                        <td class="hide-mobile">
+                            <span class="status" ng-class="{
+                                    'settled': transaction.status === 'Settled',
+                                    'successful': transaction.status === 'Successful',
+                                    'failed': transaction.status === 'Failed',
+                                    'initialized': transaction.status === 'Initialized',
+                                }">
+                                {{ transaction.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="expand-btn" ng-click="toggleDetails($index)">
+                                {{ expandedIndex === $index ? '⌃' : '⌄' }}
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Details row -->
+                    <tr ng-repeat-end ng-show="expandedIndex === $index">
+                        <td colspan="5">
+                            <div class="transaction-details">
+                                <table class="transaction-table">
+                                    <tr>
+                                        <td>
+                                            <p>{{ transaction.phone }}</p><br>
+                                            <p>User type <strong>Guest</strong></p>
+                                        </td>
+                                        <td>
+                                            <p><strong>Transaction Fees </strong> {{ transaction.transactionFees }}</p><br>
+                                            <p><strong>Taxes </strong> {{ transaction.tax }}</p><br>
+                                            <p ng-if="transaction.status === 'Settled'">
+                                                <a href="#" style="text-decoration: none;">Settlement Info</a>
+                                            </p>
+                                            
+                                        </td>
+                                        <td>
+                                            <p><strong>Gateway </strong> {{ transaction.gateway }}</p><br>
+                                            <p><strong>Gateway ID </strong> {{ transaction.gatewayId }}</p><br>
+                                            <p class="resend-email" ng-if="transaction.status === 'Successful'">
+                                                <span>✉️</span> <b>Resend confirmation email</b>
+                                            </p>    
+                                            
+                                            <p class="check-status" ng-if="transaction.status === 'Initialized'">
+                                                <b>Recheck transaction status</b>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p><strong>Reference Id </strong> {{ transaction.referenceId }}</p><br>
+                                            <p><strong>Order Id </strong> {{ transaction.orderId }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <p><strong>Order Details:</strong> {{ transaction.orderDetails }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+          </tbody>
+        </table>
+    </div>
+    </div>
+
+    <script src="../Script/script.js"></script>
+
+</body>
+
+</html>
