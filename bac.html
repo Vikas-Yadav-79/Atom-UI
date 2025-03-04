@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transactions Table</title>
     <link rel="stylesheet" href="../css/style.css">
-    <!-- Bootstrap CSS (if you want to use it; otherwise you can remove these lines) -->
+    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Add Bootstrap JavaScript (Optional, only if you need Bootstrap components like modals, tooltips, etc.) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
 
 <body ng-controller="TransactionController">
+
     <div class="transaction-container">
         <h2>Transactions history</h2>
         <div class="table-responsive">
@@ -24,11 +28,9 @@
                         <th class="hide-mobile">Paid for</th>
                         <th class="hide-mobile">Date & Time</th>
                         <th class="hide-mobile">Status</th>
-                        <th></th> <!-- For the expand/collapse button -->
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Transaction row -->
                     <tr ng-repeat-start="transaction in transactions track by $index">
                         <td>
                             <strong>{{ transaction.name }}</strong><br>
@@ -39,11 +41,11 @@
                         <td class="hide-mobile">{{ transaction.dateTime }}</td>
                         <td class="hide-mobile">
                             <span class="status" ng-class="{
-                      'settled': transaction.status === 'Settled',
-                      'successful': transaction.status === 'Successful',
-                      'failed': transaction.status === 'Failed',
-                      'initialized': transaction.status === 'Initialized'
-                    }">
+                                    'settled': transaction.status === 'Settled',
+                                    'successful': transaction.status === 'Successful',
+                                    'failed': transaction.status === 'Failed',
+                                    'initialized': transaction.status === 'Initialized',
+                                }">
                                 {{ transaction.status }}
                             </span>
                         </td>
@@ -55,73 +57,76 @@
                     </tr>
                     <!-- Details row -->
                     <tr ng-repeat-end ng-show="expandedIndex === $index">
-                        <td colspan="6">
+                        <td colspan="5">
                             <div class="transaction-details">
                                 <table class="transaction-table">
                                     <tr>
                                         <td>
-                                            <p>{{ transaction.phone }}</p>
+                                            <p>{{ transaction.phone }}</p><br>
                                             <p>User type <strong>Guest</strong></p>
                                         </td>
                                         <td>
-                                            <p><strong>Transaction Fees:</strong> {{ transaction.transactionFees }}</p>
-                                            <p><strong>Taxes:</strong> {{ transaction.tax }}</p>
+                                            <p><strong>Transaction Fees </strong> {{ transaction.transactionFees }}</p>
+                                            <br>
+                                            <p><strong>Taxes </strong> {{ transaction.tax }}</p><br>
                                             <p ng-if="transaction.status === 'Settled'">
                                                 <a href="#" style="text-decoration: none;">Settlement Info</a>
                                             </p>
+
                                         </td>
                                         <td>
-                                            <p><strong>Gateway:</strong> {{ transaction.gateway }}</p>
-                                            <p><strong>Gateway ID:</strong> {{ transaction.gatewayId }}</p>
+                                            <p><strong>Gateway </strong> {{ transaction.gateway }}</p><br>
+                                            <p><strong>Gateway ID </strong> {{ transaction.gatewayId }}</p><br>
                                             <p class="resend-email" ng-if="transaction.status === 'Successful'">
                                                 <span>✉️</span> <b>Resend confirmation email</b>
                                             </p>
+
                                             <p class="check-status" ng-if="transaction.status === 'Initialized'">
-                                                <b ng-click="recheckTransaction($index)" style="cursor: pointer; color: blue;" ng-disabled="transaction.isRechecking">
-                                                  <span ng-if="transaction.isRechecking">
-                                                    Rechecking status <span class="spinner"></span>
-                                                  </span>
-                                                  <span ng-if="!transaction.isRechecking">
+                                                <b ng-click="recheckTransaction($index)"
+                                                    style="cursor: pointer; color: blue;">
                                                     Recheck transaction status
-                                                  </span>
                                                 </b>
-                                              </p>
-                                              
+                                            </p>
                                         </td>
                                         <td>
-                                            <p><strong>Reference Id:</strong> {{ transaction.referenceId }}</p>
-                                            <p><strong>Order Id:</strong> {{ transaction.orderId }}</p>
+                                            <p><strong>Reference Id </strong> {{ transaction.referenceId }}</p><br>
+                                            <p><strong>Order Id </strong> {{ transaction.orderId }}</p>
                                         </td>
-
-
                                     </tr>
+
+                                    <div>
+                                        <!-- For Failed Message -->
+                                        <div class="transaction-message error"
+                                            ng-if="transaction.status === 'Failed' && !transaction.hideMessage">
+                                            <div>
+                                                <span class="icon">❌</span>
+                                                <strong>Transaction failed</strong> This transaction has been marked
+                                                Failed.
+                                            </div>
+                                            <span class="close" ng-click="closeMessage($index)">&times;</span>
+                                        </div>
+
+                                        <!-- For Successful Message -->
+                                        <div class="transaction-message success"
+                                            ng-if="transaction.status === 'Successful' && !transaction.hideMessage">
+                                            <div>
+                                                <span class="icon">✅</span>
+                                                <strong>Transaction Successful</strong> {{transaction.name}} will receieve a confirmation email for successful transaction. 
+                                            </div>
+                                            <span class="close" ng-click="closeMessage($index)">&times;</span>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                    <!-- <tr>
+                                        <td colspan="4">
+                                            <p><strong>Order Details:</strong> {{ transaction.orderDetails }}</p>
+                                        </td>
+                                    </tr> -->
                                 </table>
-                                <!-- Message Container (moved outside the inner table) -->
-                                <div class="message-container">
-                                    <!-- For Failed Message -->
-                                    <div class="transaction-message error"
-                                        ng-if="transaction.status === 'Failed' && !transaction.hideMessage">
-                                        <div>
-                                            <span class="icon">❌</span>
-                                            <strong>Transaction failed</strong> This transaction has been marked Failed.
-                                        </div>
-                                        <span class="close" ng-click="closeMessage($index)">&times;</span>
-                                    </div>
-                                    <!-- For Successful Message -->
-                                    <div class="transaction-message success"
-                                        ng-if="transaction.status === 'Successful' && !transaction.hideMessage">
-                                        <div>
-                                            <span class="icon">✅</span>
-                                            <strong>Transaction Successful</strong> {{ transaction.name }} will receive
-                                            a confirmation email.
-                                        </div>
-                                        <span class="close" ng-click="closeMessage($index)">&times;</span>
-                                    </div>
-                                    <!-- Toast Notification -->
-                                    <div class="toast-notification" ng-if="showBankError">
-                                        {{toastMessage}}
-                                    </div>
-                                </div>
                             </div>
                         </td>
                     </tr>
@@ -129,7 +134,9 @@
             </table>
         </div>
     </div>
+
     <script src="../Script/script.js"></script>
+
 </body>
 
 </html>
